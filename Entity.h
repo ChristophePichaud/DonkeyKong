@@ -3,8 +3,6 @@
 enum EntityType
 {
 	player,
-	weapon,
-	enemy,
 	block
 };
 

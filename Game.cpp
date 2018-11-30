@@ -33,6 +33,24 @@ Game::Game()
 	player->m_position = mPlayer.getPosition();
 	EntityManager::m_Entities.push_back(player);
 
+		_TextureBlock.loadFromFile("Media/Textures/Block.png");
+
+	for (int i = 0; i < BLOCK_COUNT_X; i++)
+	{
+		for (int j = 0; j < BLOCK_COUNT_Y; j++)
+		{
+			_Block[i][j].setTexture(_TextureBlock);
+			_Block[i][j].setPosition(100.f + 70.f * (i + 1), 0.f + 100.f * (j + 1));
+
+			std::shared_ptr<Entity> se = std::make_shared<Entity>();
+			se->m_sprite = _Block[i][j];
+			se->m_type = EntityType::block;
+			se->m_size = _TextureEnemy.getSize();
+			se->m_position = _Block[i][j].getPosition();
+			EntityManager::m_Entities.push_back(se);
+		}
+	}
+
 	mFont.loadFromFile("Media/Sansation.ttf");
 	mStatisticsText.setString("Welcome to Donkey Kong 1981");
 	mStatisticsText.setFont(mFont);
