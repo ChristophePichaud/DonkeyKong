@@ -33,6 +33,8 @@ Game::Game()
 	player->m_position = mPlayer.getPosition();
 	EntityManager::m_Entities.push_back(player);
 
+	mFont.loadFromFile("Media/Sansation.ttf");
+	mStatisticsText.setString("Welcome to Donkey Kong 1981");
 	mStatisticsText.setFont(mFont);
 	mStatisticsText.setPosition(5.f, 5.f);
 	mStatisticsText.setCharacterSize(10);
