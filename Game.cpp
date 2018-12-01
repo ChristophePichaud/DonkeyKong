@@ -21,10 +21,54 @@ Game::Game()
 {
 	mWindow.setFramerateLimit(160);
 
-	mTexture.loadFromFile("Media/Textures/Mario_small.png");
+	// Draw blocks
 
+	_TextureBlock.loadFromFile("Media/Textures/Block.png");
+	_sizeBlock = _TextureBlock.getSize();
+
+	for (int i = 0; i < BLOCK_COUNT_X; i++)
+	{
+		for (int j = 0; j < BLOCK_COUNT_Y; j++)
+		{
+			_Block[i][j].setTexture(_TextureBlock);
+			_Block[i][j].setPosition(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (j + 1));
+
+			std::shared_ptr<Entity> se = std::make_shared<Entity>();
+			se->m_sprite = _Block[i][j];
+			se->m_type = EntityType::block;
+			se->m_size = _TextureBlock.getSize();
+			se->m_position = _Block[i][j].getPosition();
+			EntityManager::m_Entities.push_back(se);
+		}
+	}
+
+	// Draw Echelles
+
+	_TextureEchelle.loadFromFile("Media/Textures/Echelle.png");
+
+	for (int i = 0; i < ECHELLE_COUNT; i++)
+	{
+		_Echelle[i].setTexture(_TextureEchelle);
+		_Echelle[i].setPosition(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (i + 1) + _sizeBlock.y );
+
+		std::shared_ptr<Entity> se = std::make_shared<Entity>();
+		se->m_sprite = _Echelle[i];
+		se->m_type = EntityType::echelle;
+		se->m_size = _TextureEchelle.getSize();
+		se->m_position = _Echelle[i].getPosition();
+		EntityManager::m_Entities.push_back(se);
+	}
+
+	// Draw Mario
+
+	mTexture.loadFromFile("Media/Textures/Mario_small_transparent.png"); // Mario_small.png");
+	_sizeMario = mTexture.getSize();
 	mPlayer.setTexture(mTexture);
-	mPlayer.setPosition(100.f, 500.f);
+	sf::Vector2f posMario;
+	posMario.x = 100.f + 70.f;
+	posMario.y = BLOCK_SPACE * 5 - _sizeMario.y;
+
+	mPlayer.setPosition(posMario);
 
 	std::shared_ptr<Entity> player = std::make_shared<Entity>();
 	player->m_sprite = mPlayer;
@@ -33,23 +77,7 @@ Game::Game()
 	player->m_position = mPlayer.getPosition();
 	EntityManager::m_Entities.push_back(player);
 
-		_TextureBlock.loadFromFile("Media/Textures/Block.png");
-
-	for (int i = 0; i < BLOCK_COUNT_X; i++)
-	{
-		for (int j = 0; j < BLOCK_COUNT_Y; j++)
-		{
-			_Block[i][j].setTexture(_TextureBlock);
-			_Block[i][j].setPosition(100.f + 70.f * (i + 1), 0.f + 100.f * (j + 1));
-
-			std::shared_ptr<Entity> se = std::make_shared<Entity>();
-			se->m_sprite = _Block[i][j];
-			se->m_type = EntityType::block;
-			se->m_size = _TextureEnemy.getSize();
-			se->m_position = _Block[i][j].getPosition();
-			EntityManager::m_Entities.push_back(se);
-		}
-	}
+	// Draw Statistic Font 
 
 	mFont.loadFromFile("Media/Sansation.ttf");
 	mStatisticsText.setString("Welcome to Donkey Kong 1981");

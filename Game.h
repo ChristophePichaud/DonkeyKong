@@ -1,9 +1,9 @@
 #pragma once
 
-#define SPRITE_COUNT_X 11
-#define SPRITE_COUNT_Y 5
-#define BLOCK_COUNT_X 10
+#define ECHELLE_COUNT 4
+#define BLOCK_COUNT_X 8
 #define BLOCK_COUNT_Y 5
+#define BLOCK_SPACE 110.f
 
 class Game
 {
@@ -37,11 +37,13 @@ private:
 	bool mIsMovingRight;
 	bool mIsMovingLeft;
 
-	sf::Texture	_TextureEnemy;
-	sf::Sprite	_Enemy[SPRITE_COUNT_X][SPRITE_COUNT_Y];
+	sf::Texture	_TextureEchelle;
+	sf::Sprite	_Echelle[ECHELLE_COUNT];
 	sf::Texture	_TextureBlock;
 	sf::Sprite	_Block[BLOCK_COUNT_X][BLOCK_COUNT_Y];
 	sf::Texture	_TextureWeapon;
 	sf::Sprite	_Weapon;
+	sf::Vector2u _sizeBlock;
+	sf::Vector2u _sizeMario;
 };
 
