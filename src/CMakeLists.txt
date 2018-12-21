@@ -1,0 +1,5 @@
+# This file is an index for sources
+# message("${PROJECT_NAME}_SOURCES")
+
+set(PROJECT_NAME_SOURCES ${PROJECT_NAME}_SOURCES)
+file(GLOB_RECURSE PROJECT_NAME_SOURCES ${CMAKE_SOURCE_DIR}/src/*.cpp)

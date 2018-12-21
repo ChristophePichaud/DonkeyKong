@@ -1,0 +1,5 @@
+# This file is an index for headers
+# message("${PROJECT_NAME}_HEADERS")
+
+set(PROJECT_NAME_HEADERS ${PROJECT_NAME}_HEADERS)
+file(GLOB_RECURSE PROJECT_NAME_HEADERS ${CMAKE_SOURCE_DIR}/include/*.h)
