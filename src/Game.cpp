@@ -62,10 +62,17 @@ void Game::drawBlocks() {
         for (int j = 0; j < BLOCK_COUNT_Y; j++) {
             _Block[i][j].setTexture(_TextureBlock);
 
+<<<<<<< HEAD
             if (j %  2) {
                 _Block[i][j].setPosition(-20.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (j + 1));
             } else {
                 _Block[i][j].setPosition(70.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (j + 1));
+=======
+            if (j%  2) {
+                _Block[i][j].setPosition(30.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (j + 1));
+            } else {
+                _Block[i][j].setPosition(90.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (j + 1));
+>>>>>>> 2b69af41bd089009f2310fd1f249ecd0a0857d9b
             }
 
             std::shared_ptr<Entity> se = std::make_shared<Entity>();
@@ -88,7 +95,11 @@ void Game::drawLadders() {
             _Ladder[i].setPosition(750.f + 70.f, 0.f + BLOCK_SPACE * (i + 1) + _sizeBlock.y);
         }
         else {
+<<<<<<< HEAD
             _Ladder[i].setPosition(100.f + 70.f, 0.f + BLOCK_SPACE * (i + 1) + _sizeBlock.y);
+=======
+            _Ladder[i].setPosition(120.f + 70.f, 0.f + BLOCK_SPACE * (i + 1) + _sizeBlock.y);
+>>>>>>> 2b69af41bd089009f2310fd1f249ecd0a0857d9b
         }
 
 
