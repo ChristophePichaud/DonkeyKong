@@ -5,50 +5,49 @@
 #define BLOCK_COUNT_Y 5
 #define BLOCK_SPACE 110.f
 
-class Game
-{
-public:
-    Game();
+class Game {
+    public:
+        Game();
 
-    ~Game() = default;;
+        ~Game() = default;;
 
-    void run();
+        void run();
 
-private:
-    void processEvents();
+    private:
+        void processEvents();
+        void update(sf::Time elapsedTime);
+        void render();
+        void updateStatistics(sf::Time elapsedTime);
+        void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
+        void drawBlocks();
+        void drawLadders();
+        void drawMario();
+        void drawStatistics();
 
-    void update(sf::Time elapsedTime);
+    private:
+        static const float PlayerSpeed;
+        static const sf::Time TimePerFrame;
 
-    void render();
+        sf::RenderWindow mWindow;
+        sf::Texture mTexture;
+        sf::Sprite mPlayer;
+        sf::Font mFont;
+        sf::Text mStatisticsText;
+        sf::Time mStatisticsUpdateTime;
 
-    void updateStatistics(sf::Time elapsedTime);
+        std::size_t mStatisticsNumFrames;
+        bool mIsMovingUp;
+        bool mIsMovingDown;
+        bool mIsMovingRight;
+        bool mIsMovingLeft;
 
-    void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
-
-private:
-    static const float PlayerSpeed;
-    static const sf::Time TimePerFrame;
-
-    sf::RenderWindow mWindow;
-    sf::Texture mTexture;
-    sf::Sprite mPlayer;
-    sf::Font mFont;
-    sf::Text mStatisticsText;
-    sf::Time mStatisticsUpdateTime;
-
-    std::size_t mStatisticsNumFrames;
-    bool mIsMovingUp;
-    bool mIsMovingDown;
-    bool mIsMovingRight;
-    bool mIsMovingLeft;
-
-    sf::Texture _TextureEchelle;
-    sf::Sprite _Echelle[SCALE_COUNT];
-    sf::Texture _TextureBlock;
-    sf::Sprite _Block[BLOCK_COUNT_X][BLOCK_COUNT_Y];
-    sf::Texture _TextureWeapon;
-    sf::Sprite _Weapon;
-    sf::Vector2u _sizeBlock;
-    sf::Vector2u _sizeMario;
+        sf::Texture _LadderTexture;
+        sf::Sprite _Ladder[SCALE_COUNT];
+        sf::Texture _TextureBlock;
+        sf::Sprite _Block[BLOCK_COUNT_X][BLOCK_COUNT_Y];
+        sf::Texture _TextureWeapon;
+        sf::Sprite _Weapon;
+        sf::Vector2u _sizeBlock;
+        sf::Vector2u _sizeMario;
 };
 

@@ -6,30 +6,44 @@
 
 const float Game::PlayerSpeed = 100.f;
 const sf::Time Game::TimePerFrame = sf::seconds(1.f / 60.f);
+const std::string BlockTexturePath = "../Media/Textures/Block.png";
+const std::string LadderTexturePath = "../Media/Textures/Echelle.PNG";
+const std::string MarioTexturePath = "../Media/Textures/Mario_small_transparent.png";
+const std::string StatisticsFontPath = "../Media/Sansation.ttf";
 
-Game::Game()
-        : mWindow(sf::VideoMode(840, 600), "Donkey Kong 1981", sf::Style::Close), mTexture(), mPlayer(), mFont(),
-          mStatisticsText(), mStatisticsUpdateTime(), mStatisticsNumFrames(0), mIsMovingUp(false), mIsMovingDown(false),
-          mIsMovingRight(false), mIsMovingLeft(false)
+Game::Game() :
+    mWindow(sf::VideoMode(840, 600), "Donkey Kong 1981", sf::Style::Close),
+    mTexture(),
+    mPlayer(),
+    mFont(),
+    mStatisticsText(),
+    mStatisticsUpdateTime(),
+    mStatisticsNumFrames(0),
+    mIsMovingUp(false),
+    mIsMovingDown(false),
+    mIsMovingRight(false),
+    mIsMovingLeft(false)
 {
     mWindow.setFramerateLimit(160);
+    drawBlocks();
+    drawLadders();
+    drawMario();
+    drawStatistics();
+}
 
-    // Draw blocks
-
-    _TextureBlock.loadFromFile("../Media/Textures/Block.png");
+void Game::drawBlocks() {
+    _TextureBlock.loadFromFile(BlockTexturePath);
     _sizeBlock = _TextureBlock.getSize();
 
-    for (int i = 0; i < BLOCK_COUNT_X; i++)
-    {
-        for (int j = 0; j < BLOCK_COUNT_Y; j++)
-        {
+    for (int i = 0; i < BLOCK_COUNT_X; i++) {
+        for (int j = 0; j < BLOCK_COUNT_Y; j++) {
             _Block[i][j].setTexture(_TextureBlock);
-            if(j%2){
+
+            if (j%  2) {
                 _Block[i][j].setPosition(-30.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (j + 1));
-            }else {
+            } else {
                 _Block[i][j].setPosition(80.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (j + 1));
             }
-
 
             std::shared_ptr<Entity> se = std::make_shared<Entity>();
             se->m_sprite = _Block[i][j];
@@ -39,27 +53,26 @@ Game::Game()
             EntityManager::m_Entities.push_back(se);
         }
     }
+}
 
-    // Draw Echelles
+void Game::drawLadders() {
+    _LadderTexture.loadFromFile(LadderTexturePath);
 
-    _TextureEchelle.loadFromFile("../Media/Textures/Echelle.PNG");
-
-    for (int i = 0; i < SCALE_COUNT; i++)
-    {
-        _Echelle[i].setTexture(_TextureEchelle);
-        _Echelle[i].setPosition(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (i + 1) + _sizeBlock.y);
+    for (int i = 0; i < SCALE_COUNT; i++) {
+        _Ladder[i].setTexture(_LadderTexture);
+        _Ladder[i].setPosition(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (i + 1) + _sizeBlock.y);
 
         std::shared_ptr<Entity> se = std::make_shared<Entity>();
-        se->m_sprite = _Echelle[i];
+        se->m_sprite = _Ladder[i];
         se->m_type = EntityType::scale;
-        se->m_size = _TextureEchelle.getSize();
-        se->m_position = _Echelle[i].getPosition();
+        se->m_size = _LadderTexture.getSize();
+        se->m_position = _Ladder[i].getPosition();
         EntityManager::m_Entities.push_back(se);
     }
+}
 
-    // Draw Mario
-
-    mTexture.loadFromFile("../Media/Textures/Mario_small_transparent.png"); // Mario_small.png");
+void Game::drawMario() {
+    mTexture.loadFromFile(MarioTexturePath);
     _sizeMario = mTexture.getSize();
     mPlayer.setTexture(mTexture);
     sf::Vector2f posMario;
@@ -74,28 +87,26 @@ Game::Game()
     player->m_size = mTexture.getSize();
     player->m_position = mPlayer.getPosition();
     EntityManager::m_Entities.push_back(player);
+}
 
-    // Draw Statistic Font
-
-    mFont.loadFromFile("../Media/Sansation.ttf");
+void Game::drawStatistics() {
+    mFont.loadFromFile(StatisticsFontPath);
     mStatisticsText.setString("Welcome to Donkey Kong 1981");
     mStatisticsText.setFont(mFont);
     mStatisticsText.setPosition(5.f, 5.f);
     mStatisticsText.setCharacterSize(10);
 }
 
-void Game::run()
-{
+void Game::run() {
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
-    while (mWindow.isOpen())
-    {
+
+    while (mWindow.isOpen()) {
         sf::Time elapsedTime = clock.restart();
         timeSinceLastUpdate += elapsedTime;
-        while (timeSinceLastUpdate > TimePerFrame)
-        {
-            timeSinceLastUpdate -= TimePerFrame;
 
+        while (timeSinceLastUpdate > TimePerFrame) {
+            timeSinceLastUpdate -= TimePerFrame;
             processEvents();
             update(TimePerFrame);
         }
@@ -105,13 +116,11 @@ void Game::run()
     }
 }
 
-void Game::processEvents()
-{
+void Game::processEvents(){
     sf::Event event{};
-    while (mWindow.pollEvent(event))
-    {
-        switch (event.type)
-        {
+
+    while (mWindow.pollEvent(event)){
+        switch (event.type){
             case sf::Event::KeyPressed:
                 handlePlayerInput(event.key.code, true);
                 break;
@@ -129,8 +138,7 @@ void Game::processEvents()
     }
 }
 
-void Game::update(sf::Time elapsedTime)
-{
+void Game::update(sf::Time elapsedTime){
     sf::Vector2f movement(0.f, 0.f);
     if (mIsMovingUp)
         movement.y -= PlayerSpeed;
@@ -141,10 +149,8 @@ void Game::update(sf::Time elapsedTime)
     if (mIsMovingRight)
         movement.x += PlayerSpeed;
 
-    for (const std::shared_ptr<Entity> &entity : EntityManager::m_Entities)
-    {
-        if (!entity->m_enabled || entity->m_type != EntityType::player)
-        {
+    for (const std::shared_ptr<Entity> &entity : EntityManager::m_Entities){
+        if (!entity->m_enabled || entity->m_type != EntityType::player){
             continue;
         }
 
@@ -152,14 +158,11 @@ void Game::update(sf::Time elapsedTime)
     }
 }
 
-void Game::render()
-{
+void Game::render(){
     mWindow.clear();
 
-    for (const std::shared_ptr<Entity> &entity : EntityManager::m_Entities)
-    {
-        if (!entity->m_enabled)
-        {
+    for (const std::shared_ptr<Entity> &entity : EntityManager::m_Entities){
+        if (!entity->m_enabled){
             continue;
         }
 
@@ -170,13 +173,11 @@ void Game::render()
     mWindow.display();
 }
 
-void Game::updateStatistics(sf::Time elapsedTime)
-{
+void Game::updateStatistics(sf::Time elapsedTime) {
     mStatisticsUpdateTime += elapsedTime;
     mStatisticsNumFrames += 1;
 
-    if (mStatisticsUpdateTime >= sf::seconds(1.0f))
-    {
+    if (mStatisticsUpdateTime >= sf::seconds(1.0f)) {
         mStatisticsText.setString(
                 "Frames / Second = " + toString(mStatisticsNumFrames) + "\n" +
                 "Time / Update = " + toString(mStatisticsUpdateTime.asMicroseconds() / mStatisticsNumFrames) + "us");
@@ -185,20 +186,14 @@ void Game::updateStatistics(sf::Time elapsedTime)
         mStatisticsNumFrames = 0;
     }
 
-    //
     // Handle collision
-    //
-
-    if (mStatisticsUpdateTime >= sf::seconds(0.050f))
-    {
+    if (mStatisticsUpdateTime >= sf::seconds(0.050f)) {
         // Handle collision weapon enemies
     }
 }
 
-void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
-{
-    switch (key)
-    {
+void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed) {
+    switch (key) {
         case sf::Keyboard::Up:
             mIsMovingUp = isPressed;
             break;
