@@ -3,6 +3,7 @@
 #include "StringHelpers.h"
 #include "Game.h"
 #include "EntityManager.h"
+#include "RandomHelpers.h"
 
 const float Game::PlayerSpeed = 100.f;
 const sf::Time Game::TimePerFrame = sf::seconds(1.f / 60.f);
@@ -10,12 +11,17 @@ const std::string BlockTexturePath = "../Media/Textures/Block.png";
 const std::string LadderTexturePath = "../Media/Textures/Echelle.PNG";
 const std::string MarioTexturePath = "../Media/Textures/Mario_small_transparent.png";
 const std::string StatisticsFontPath = "../Media/Sansation.ttf";
+const std::string CoinTexturePath = "../Media/Textures/coin.png";
+const std::string ScoreFontPath = "../Media/BlockyLettersHollow.ttf";
 
 Game::Game() :
     mWindow(sf::VideoMode(840, 600), "Donkey Kong 1981", sf::Style::Close),
     mTexture(),
     mPlayer(),
     mFont(),
+    scoreFont(),
+    scoreAnnouncementText(),
+    scoreText(),
     mStatisticsText(),
     mStatisticsUpdateTime(),
     mStatisticsNumFrames(0),
@@ -25,10 +31,14 @@ Game::Game() :
     mIsMovingLeft(false)
 {
     mWindow.setFramerateLimit(160);
+    score = 0;
+
     drawBlocks();
     drawLadders();
+    drawCoins();
     drawMario();
     drawStatistics();
+    drawScore();
 }
 
 void Game::drawBlocks() {
@@ -39,7 +49,7 @@ void Game::drawBlocks() {
         for (int j = 0; j < BLOCK_COUNT_Y; j++) {
             _Block[i][j].setTexture(_TextureBlock);
 
-            if (j%  2) {
+            if (j % 2) {
                 _Block[i][j].setPosition(-30.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (j + 1));
             } else {
                 _Block[i][j].setPosition(80.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (j + 1));
@@ -97,6 +107,46 @@ void Game::drawStatistics() {
     mStatisticsText.setCharacterSize(10);
 }
 
+void Game::drawScore() {
+    scoreFont.loadFromFile(ScoreFontPath);
+
+    scoreAnnouncementText.setString("Score");
+    scoreAnnouncementText.setFont(scoreFont);
+    scoreAnnouncementText.setPosition(680.f, 5.f);
+    scoreAnnouncementText.setCharacterSize(40);
+
+    scoreText.setString(std::to_string(score));
+    scoreText.setFont(scoreFont);
+    scoreText.setPosition(680.f, 50.f);
+    scoreText.setCharacterSize(22);
+}
+
+void Game::drawCoins() {
+    _CoinTexture.loadFromFile(CoinTexturePath);
+
+    for (int i = 0; i < COIN_COUNT; i++) {
+        _Coin[i].setTexture(_CoinTexture);
+
+        // Get random block, then put a coin upon it
+        int blockX = getRandomNumber(0, BLOCK_COUNT_X);
+        int blockY = getRandomNumber(0, BLOCK_COUNT_Y);
+
+        sf::Sprite randomBlock = _Block[blockX][blockY];
+
+        _Coin[i].setPosition(
+            randomBlock.getPosition().x,
+            0.f + BLOCK_SPACE * i + 2 * _sizeBlock.y
+        );
+
+        std::shared_ptr<Entity> se = std::make_shared<Entity>();
+        se->m_sprite = _Coin[i];
+        se->m_type = EntityType::coin;
+        se->m_size = _CoinTexture.getSize();
+        se->m_position = _Coin[i].getPosition();
+        EntityManager::m_Entities.push_back(se);
+    }
+}
+
 void Game::run() {
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
@@ -108,9 +158,11 @@ void Game::run() {
         while (timeSinceLastUpdate > TimePerFrame) {
             timeSinceLastUpdate -= TimePerFrame;
             processEvents();
+            handleCoins();
             update(TimePerFrame);
         }
 
+        updateScore();
         updateStatistics(elapsedTime);
         render();
     }
@@ -169,8 +221,14 @@ void Game::render(){
         mWindow.draw(entity->m_sprite);
     }
 
+    mWindow.draw(scoreAnnouncementText);
+    mWindow.draw(scoreText);
     mWindow.draw(mStatisticsText);
     mWindow.display();
+}
+
+void Game::updateScore() {
+    scoreText.setString(std::to_string(score));
 }
 
 void Game::updateStatistics(sf::Time elapsedTime) {
@@ -212,5 +270,19 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed) {
             break;
 
         default: ;
+    }
+}
+
+void Game::handleCoins() {
+    auto playerBounds = EntityManager::GetPlayer().get()->m_sprite.getGlobalBounds();
+    auto coins = EntityManager::GetCoins();
+
+    for (auto const& coin: coins) {
+        auto coinGlobalBounds = coin.get()->m_sprite.getGlobalBounds();
+
+        if (playerBounds.intersects(coinGlobalBounds)) {
+            EntityManager::RemoveCoin(coin);
+            score += COIN_VALUE;
+        }
     }
 }
