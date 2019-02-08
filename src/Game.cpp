@@ -15,7 +15,7 @@ const std::string CoinTexturePath = "../Media/Textures/coin.png";
 const std::string ScoreFontPath = "../Media/BlockyLettersHollow.ttf";
 
 Game::Game() :
-    mWindow(sf::VideoMode(840, 600), "Donkey Kong 1981", sf::Style::Close),
+    mWindow(sf::VideoMode(1024, 770), "Donkey Kong 1981", sf::Style::Close),
     mTexture(),
     mPlayer(),
     mFont(),
@@ -45,14 +45,27 @@ void Game::drawBlocks() {
     _TextureBlock.loadFromFile(BlockTexturePath);
     _sizeBlock = _TextureBlock.getSize();
 
+    for (int i = 0; i < BASE_BLOCK_COUNT; i++) {
+        _Block[i][BLOCK_COUNT_Y].setTexture(_TextureBlock);
+
+        _Block[i][BLOCK_COUNT_Y].setPosition(-70.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (BLOCK_COUNT_Y + 1));
+
+        std::shared_ptr<Entity> se = std::make_shared<Entity>();
+        se->m_sprite = _Block[i][BLOCK_COUNT_Y];
+        se->m_type = EntityType::block;
+        se->m_size = _TextureBlock.getSize();
+        se->m_position = _Block[i][BLOCK_COUNT_Y].getPosition();
+        EntityManager::m_Entities.push_back(se);
+    }
+
     for (int i = 0; i < BLOCK_COUNT_X; i++) {
         for (int j = 0; j < BLOCK_COUNT_Y; j++) {
             _Block[i][j].setTexture(_TextureBlock);
 
-            if (j % 2) {
-                _Block[i][j].setPosition(-30.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (j + 1));
+            if (j%  2) {
+                _Block[i][j].setPosition(-20.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (j + 1));
             } else {
-                _Block[i][j].setPosition(80.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (j + 1));
+                _Block[i][j].setPosition(70.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (j + 1));
             }
 
             std::shared_ptr<Entity> se = std::make_shared<Entity>();
@@ -63,14 +76,21 @@ void Game::drawBlocks() {
             EntityManager::m_Entities.push_back(se);
         }
     }
+
 }
 
 void Game::drawLadders() {
     _LadderTexture.loadFromFile(LadderTexturePath);
 
-    for (int i = 0; i < SCALE_COUNT; i++) {
+    for (int i = 0; i <= SCALE_COUNT; i++) {
         _Ladder[i].setTexture(_LadderTexture);
-        _Ladder[i].setPosition(100.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (i + 1) + _sizeBlock.y);
+        if(i % 2){
+            _Ladder[i].setPosition(750.f + 70.f, 0.f + BLOCK_SPACE * (i + 1) + _sizeBlock.y);
+        }
+        else {
+            _Ladder[i].setPosition(100.f + 70.f, 0.f + BLOCK_SPACE * (i + 1) + _sizeBlock.y);
+        }
+
 
         std::shared_ptr<Entity> se = std::make_shared<Entity>();
         se->m_sprite = _Ladder[i];
