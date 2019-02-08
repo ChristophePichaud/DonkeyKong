@@ -1,7 +1,7 @@
 #pragma once
 
 #define SCALE_COUNT 4
-#define BLOCK_COUNT_X 8
+#define BLOCK_COUNT_X 9
 #define BLOCK_COUNT_Y 5
 #define BLOCK_SPACE 110.f
 
