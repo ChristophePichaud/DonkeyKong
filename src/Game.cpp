@@ -130,12 +130,12 @@ void Game::drawScore() {
 
     scoreAnnouncementText.setString("Score");
     scoreAnnouncementText.setFont(scoreFont);
-    scoreAnnouncementText.setPosition(680.f, 5.f);
+    scoreAnnouncementText.setPosition(844.f, 5.f);
     scoreAnnouncementText.setCharacterSize(40);
 
     scoreText.setString(std::to_string(score));
     scoreText.setFont(scoreFont);
-    scoreText.setPosition(680.f, 50.f);
+    scoreText.setPosition(844.f, 50.f);
     scoreText.setCharacterSize(22);
 }
 
