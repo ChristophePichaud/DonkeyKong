@@ -4,6 +4,7 @@
 #define BLOCK_COUNT_X 9
 #define BLOCK_COUNT_Y 5
 #define BLOCK_SPACE 110.f
+#define COIN_COUNT 5
 
 class Game {
     public:
@@ -23,6 +24,7 @@ class Game {
         void drawLadders();
         void drawMario();
         void drawStatistics();
+        void drawCoins();
 
     private:
         static const float PlayerSpeed;
@@ -41,6 +43,8 @@ class Game {
         bool mIsMovingRight;
         bool mIsMovingLeft;
 
+        sf::Texture _CoinTexture;
+        sf::Sprite _Coin[COIN_COUNT];
         sf::Texture _LadderTexture;
         sf::Sprite _Ladder[SCALE_COUNT];
         sf::Texture _TextureBlock;
