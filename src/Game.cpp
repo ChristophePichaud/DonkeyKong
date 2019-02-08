@@ -27,6 +27,8 @@ Game::Game() :
     mIsMovingLeft(false)
 {
     mWindow.setFramerateLimit(160);
+    score = 0;
+
     drawBlocks();
     drawLadders();
     drawCoins();
@@ -119,7 +121,7 @@ void Game::drawCoins() {
 
         std::shared_ptr<Entity> se = std::make_shared<Entity>();
         se->m_sprite = _Coin[i];
-        se->m_type = EntityType::scale;
+        se->m_type = EntityType::coin;
         se->m_size = _CoinTexture.getSize();
         se->m_position = _Coin[i].getPosition();
         EntityManager::m_Entities.push_back(se);
@@ -137,6 +139,7 @@ void Game::run() {
         while (timeSinceLastUpdate > TimePerFrame) {
             timeSinceLastUpdate -= TimePerFrame;
             processEvents();
+            handleCoins();
             update(TimePerFrame);
         }
 
@@ -241,5 +244,19 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed) {
             break;
 
         default: ;
+    }
+}
+
+void Game::handleCoins() {
+    auto playerBounds = EntityManager::GetPlayer().get()->m_sprite.getGlobalBounds();
+    auto coins = EntityManager::GetCoins();
+
+    for (auto const& coin: coins) {
+        auto coinGlobalBounds = coin.get()->m_sprite.getGlobalBounds();
+
+        if (playerBounds.intersects(coinGlobalBounds)) {
+            EntityManager::RemoveCoin(coin);
+            score += COIN_VALUE;
+        }
     }
 }

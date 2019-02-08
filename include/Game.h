@@ -5,6 +5,7 @@
 #define BLOCK_COUNT_Y 5
 #define BLOCK_SPACE 110.f
 #define COIN_COUNT 5
+#define COIN_VALUE 100
 
 class Game {
     public:
@@ -25,6 +26,7 @@ class Game {
         void drawMario();
         void drawStatistics();
         void drawCoins();
+        void handleCoins();
 
     private:
         static const float PlayerSpeed;
@@ -53,5 +55,7 @@ class Game {
         sf::Sprite _Weapon;
         sf::Vector2u _sizeBlock;
         sf::Vector2u _sizeMario;
+
+        int score;
 };
 

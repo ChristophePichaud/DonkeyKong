@@ -4,6 +4,7 @@ enum EntityType{
     player,
     block,
     scale,
+    coin,
     unknown
 };
 
