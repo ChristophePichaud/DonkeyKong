@@ -12,12 +12,16 @@ const std::string LadderTexturePath = "../Media/Textures/Echelle.PNG";
 const std::string MarioTexturePath = "../Media/Textures/Mario_small_transparent.png";
 const std::string StatisticsFontPath = "../Media/Sansation.ttf";
 const std::string CoinTexturePath = "../Media/Textures/coin.png";
+const std::string ScoreFontPath = "../Media/BlockyLettersHollow.ttf";
 
 Game::Game() :
     mWindow(sf::VideoMode(840, 600), "Donkey Kong 1981", sf::Style::Close),
     mTexture(),
     mPlayer(),
     mFont(),
+    scoreFont(),
+    scoreAnnouncementText(),
+    scoreText(),
     mStatisticsText(),
     mStatisticsUpdateTime(),
     mStatisticsNumFrames(0),
@@ -34,6 +38,7 @@ Game::Game() :
     drawCoins();
     drawMario();
     drawStatistics();
+    drawScore();
 }
 
 void Game::drawBlocks() {
@@ -102,6 +107,20 @@ void Game::drawStatistics() {
     mStatisticsText.setCharacterSize(10);
 }
 
+void Game::drawScore() {
+    scoreFont.loadFromFile(ScoreFontPath);
+
+    scoreAnnouncementText.setString("Score");
+    scoreAnnouncementText.setFont(scoreFont);
+    scoreAnnouncementText.setPosition(680.f, 5.f);
+    scoreAnnouncementText.setCharacterSize(40);
+
+    scoreText.setString(std::to_string(score));
+    scoreText.setFont(scoreFont);
+    scoreText.setPosition(680.f, 50.f);
+    scoreText.setCharacterSize(22);
+}
+
 void Game::drawCoins() {
     _CoinTexture.loadFromFile(CoinTexturePath);
 
@@ -143,6 +162,7 @@ void Game::run() {
             update(TimePerFrame);
         }
 
+        updateScore();
         updateStatistics(elapsedTime);
         render();
     }
@@ -201,8 +221,14 @@ void Game::render(){
         mWindow.draw(entity->m_sprite);
     }
 
+    mWindow.draw(scoreAnnouncementText);
+    mWindow.draw(scoreText);
     mWindow.draw(mStatisticsText);
     mWindow.display();
+}
+
+void Game::updateScore() {
+    scoreText.setString(std::to_string(score));
 }
 
 void Game::updateStatistics(sf::Time elapsedTime) {

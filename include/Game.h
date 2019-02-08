@@ -20,6 +20,7 @@ class Game {
         void update(sf::Time elapsedTime);
         void render();
         void updateStatistics(sf::Time elapsedTime);
+        void updateScore();
         void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
         void drawBlocks();
         void drawLadders();
@@ -27,6 +28,7 @@ class Game {
         void drawStatistics();
         void drawCoins();
         void handleCoins();
+        void drawScore();
 
     private:
         static const float PlayerSpeed;
@@ -36,8 +38,11 @@ class Game {
         sf::Texture mTexture;
         sf::Sprite mPlayer;
         sf::Font mFont;
+        sf::Font scoreFont;
         sf::Text mStatisticsText;
         sf::Time mStatisticsUpdateTime;
+        sf::Text scoreAnnouncementText;
+        sf::Text scoreText;
 
         std::size_t mStatisticsNumFrames;
         bool mIsMovingUp;
