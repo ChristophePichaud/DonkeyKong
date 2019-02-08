@@ -1,9 +1,10 @@
 #pragma once
 
-#define SCALE_COUNT 4
-#define BLOCK_COUNT_X 9
-#define BLOCK_COUNT_Y 5
-#define BLOCK_SPACE 110.f
+#define SCALE_COUNT 6
+#define BLOCK_COUNT_X 11
+#define BASE_BLOCK_COUNT 16
+#define BLOCK_COUNT_Y 6
+#define BLOCK_SPACE 105.f
 #define COIN_COUNT 5
 #define COIN_VALUE 100
 
@@ -55,7 +56,7 @@ class Game {
         sf::Texture _LadderTexture;
         sf::Sprite _Ladder[SCALE_COUNT];
         sf::Texture _TextureBlock;
-        sf::Sprite _Block[BLOCK_COUNT_X][BLOCK_COUNT_Y];
+        sf::Sprite _Block[BASE_BLOCK_COUNT][BLOCK_COUNT_Y];
         sf::Texture _TextureWeapon;
         sf::Sprite _Weapon;
         sf::Vector2u _sizeBlock;
@@ -63,4 +64,3 @@ class Game {
 
         int score;
 };
-
