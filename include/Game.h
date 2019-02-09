@@ -11,6 +11,10 @@
 #define BLOCK_SPACE 130.f
 #define COIN_COUNT 5
 #define COIN_VALUE 100
+#define SCREEN_HEIGHT 1280
+#define SCREEN_WIDTH 960
+#define MARIO_HEIGHT 48
+#define MARIO_WIDTH 32
 
 class Game {
     public:

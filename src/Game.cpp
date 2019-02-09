@@ -7,11 +7,6 @@
 #include "Animation.h"
 #include "AnimatedSprite.h"
 
-#define SCREEN_HEIGHT 1280
-#define SCREEN_WIDTH 960
-#define MARIO_HEIGHT 48
-#define MARIO_WIDTH 32
-
 const float Game::PlayerSpeed = 100.f;
 const sf::Time Game::TimePerFrame = sf::seconds(1.f / 60.f);
 const std::string BlockTexturePath = "../Media/Textures/Block.png";
