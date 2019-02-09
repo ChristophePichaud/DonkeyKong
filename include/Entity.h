@@ -1,5 +1,8 @@
 #pragma once
 
+#include "Animation.h"
+#include "AnimatedSprite.h"
+
 enum EntityType{
     player,
     block,
@@ -10,16 +13,19 @@ enum EntityType{
 
 class Entity {
     public:
-        Entity() = default;
-
-        ~Entity() = default;
-
+        Entity(bool isAnimated, EntityType type) :
+                isAnimated(isAnimated),
+                m_type(type)
+        {}
     public:
         sf::Sprite m_sprite;
         sf::Vector2u m_size;
         sf::Vector2f m_position;
         EntityType m_type = EntityType::unknown;
-        bool m_enabled = true;
+        Animation* currentAnimation;
+        AnimatedSprite animatedSprite;
+        bool isAnimated = false;
+        bool isMoving = false;
 
         // Enemy only
         bool m_bLeftToRight = true;

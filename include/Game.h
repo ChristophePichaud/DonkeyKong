@@ -1,5 +1,9 @@
 #pragma once
 
+#include "Animation.h"
+#include "AnimatedSprite.h"
+#include "Mario.h"
+
 #define SCALE_COUNT 6
 #define BLOCK_COUNT_X 11
 #define BASE_BLOCK_COUNT 16
@@ -36,8 +40,7 @@ class Game {
         static const sf::Time TimePerFrame;
 
         sf::RenderWindow mWindow;
-        sf::Texture mTexture;
-        sf::Sprite mPlayer;
+        sf::Texture mSpriteSheet;
         sf::Font mFont;
         sf::Font scoreFont;
         sf::Text mStatisticsText;
@@ -46,10 +49,7 @@ class Game {
         sf::Text scoreText;
 
         std::size_t mStatisticsNumFrames;
-        bool mIsMovingUp;
-        bool mIsMovingDown;
-        bool mIsMovingRight;
-        bool mIsMovingLeft;
+        bool debug;
 
         sf::Texture _CoinTexture;
         sf::Sprite _Coin[COIN_COUNT];
@@ -60,7 +60,7 @@ class Game {
         sf::Texture _TextureWeapon;
         sf::Sprite _Weapon;
         sf::Vector2u _sizeBlock;
-        sf::Vector2u _sizeMario;
 
         int score;
+        std::shared_ptr<Mario> mario;
 };
