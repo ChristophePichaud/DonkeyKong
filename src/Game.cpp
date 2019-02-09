@@ -44,11 +44,18 @@ Game::Game() :
 void Game::drawBlocks() {
     _TextureBlock.loadFromFile(BlockTexturePath);
     _sizeBlock = _TextureBlock.getSize();
-
+    int up_base = 0;
     for (int i = 0; i < BASE_BLOCK_COUNT; i++) {
         _Block[i][BLOCK_COUNT_Y].setTexture(_TextureBlock);
 
-        _Block[i][BLOCK_COUNT_Y].setPosition(-70.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (BLOCK_COUNT_Y + 1));
+
+        if(i < 7){
+            _Block[i][BLOCK_COUNT_Y].setPosition(-70.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (BLOCK_COUNT_Y + 1));
+        }
+        else {
+            up_base += 1;
+            _Block[i][BLOCK_COUNT_Y].setPosition(-70.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (BLOCK_COUNT_Y + 1) - up_base);
+        }
 
         std::shared_ptr<Entity> se = std::make_shared<Entity>();
         se->m_sprite = _Block[i][BLOCK_COUNT_Y];
@@ -62,9 +69,9 @@ void Game::drawBlocks() {
         for (int j = 0; j < BLOCK_COUNT_Y; j++) {
             _Block[i][j].setTexture(_TextureBlock);
             if (j%  2) {
-                _Block[i][j].setPosition(30.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (j + 1));
+                _Block[i][j].setPosition(30.f + 70.f * (i + 1),-5.f + BLOCK_SPACE * (j + 1) + (i + 1));
             } else {
-                _Block[i][j].setPosition(90.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (j + 1));
+                _Block[i][j].setPosition(90.f + 70.f * (i + 1), 5.f + BLOCK_SPACE * (j + 1) - (i + 1));
             }
 
             std::shared_ptr<Entity> se = std::make_shared<Entity>();
