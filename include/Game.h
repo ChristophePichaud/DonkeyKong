@@ -6,9 +6,9 @@
 
 #define SCALE_COUNT 6
 #define BLOCK_COUNT_X 11
-#define BASE_BLOCK_COUNT 16
+#define BASE_BLOCK_COUNT 20
 #define BLOCK_COUNT_Y 6
-#define BLOCK_SPACE 105.f
+#define BLOCK_SPACE 130.f
 #define COIN_COUNT 5
 #define COIN_VALUE 100
 

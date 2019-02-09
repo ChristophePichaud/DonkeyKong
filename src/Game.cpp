@@ -52,7 +52,7 @@ void Game::drawBlocks() {
         _Block[i][BLOCK_COUNT_Y].setTexture(_TextureBlock);
 
 
-        if(i < 7){
+        if(i < (BASE_BLOCK_COUNT / 2)){
             _Block[i][BLOCK_COUNT_Y].setPosition(-70.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (BLOCK_COUNT_Y + 1));
         }
         else {
@@ -71,9 +71,9 @@ void Game::drawBlocks() {
         for (int j = 0; j < BLOCK_COUNT_Y; j++) {
             _Block[i][j].setTexture(_TextureBlock);
             if (j%  2) {
-                _Block[i][j].setPosition(30.f + 70.f * (i + 1),-5.f + BLOCK_SPACE * (j + 1) + (i + 1));
+                _Block[i][j].setPosition(130.f + 70.f * (i + 1),-5.f + BLOCK_SPACE * (j + 1) + (i + 1));
             } else {
-                _Block[i][j].setPosition(90.f + 70.f * (i + 1), 5.f + BLOCK_SPACE * (j + 1) - (i + 1));
+                _Block[i][j].setPosition(190.f + 70.f * (i + 1), 5.f + BLOCK_SPACE * (j + 1) - (i + 1));
             }
 
             std::shared_ptr<Entity> se = std::make_shared<Entity>(false, EntityType::block);
@@ -91,10 +91,10 @@ void Game::drawLadders() {
     for (int i = 0; i <= SCALE_COUNT; i++) {
         _Ladder[i].setTexture(_LadderTexture);
         if(i % 2){
-            _Ladder[i].setPosition(750.f + 70.f, 0.f + BLOCK_SPACE * (i + 1) + _sizeBlock.y);
+            _Ladder[i].setPosition(830.f + 70.f, 0.f + BLOCK_SPACE * (i + 1) + _sizeBlock.y);
         }
         else {
-            _Ladder[i].setPosition(120.f + 70.f, 0.f + BLOCK_SPACE * (i + 1) + _sizeBlock.y);
+            _Ladder[i].setPosition(230.f + 70.f, 0.f + BLOCK_SPACE * (i + 1) + _sizeBlock.y);
         }
 
 
@@ -159,12 +159,12 @@ void Game::drawScore() {
 
     scoreAnnouncementText.setString("Score");
     scoreAnnouncementText.setFont(scoreFont);
-    scoreAnnouncementText.setPosition(844.f, 5.f);
+    scoreAnnouncementText.setPosition(1080.f, 5.f);
     scoreAnnouncementText.setCharacterSize(40);
 
     scoreText.setString(std::to_string(score));
     scoreText.setFont(scoreFont);
-    scoreText.setPosition(844.f, 50.f);
+    scoreText.setPosition(1080.f, 50.f);
     scoreText.setCharacterSize(22);
 }
 
