@@ -114,8 +114,10 @@ void Game::drawMario() {
     mario->m_position = sf::Vector2f(100.f + 70.f, BLOCK_SPACE * 7 - MARIO_HEIGHT);
 
     // Static sprites
-    mario->standingRightRect = sf::Sprite(mSpriteSheet, sf::IntRect(162, 0, FRAME_WIDTH, FRAME_HEIGHT));
-    mario->standingLeftRect = sf::Sprite(mSpriteSheet, sf::IntRect(122, 0, FRAME_WIDTH, FRAME_HEIGHT));
+    auto standingRightSprite = sf::IntRect(162, 0, FRAME_WIDTH, FRAME_HEIGHT);
+    auto standingLeftSprite = sf::IntRect(122, 0, FRAME_WIDTH, FRAME_HEIGHT);
+    mario->standingRightRect = sf::Sprite(mSpriteSheet, standingRightSprite);
+    mario->standingLeftRect = sf::Sprite(mSpriteSheet, standingLeftSprite);
     mario->m_sprite = mario->standingRightRect;
 
     mario->standingLeftRect.scale(SCALE_WIDTH, SCALE_HEIGHT);
@@ -123,17 +125,19 @@ void Game::drawMario() {
 
     // Animations
     mario->walkingAnimationRight.setSpriteSheet(mSpriteSheet);
+    mario->walkingAnimationRight.addFrame(standingRightSprite);
     mario->walkingAnimationRight.addFrame(sf::IntRect(200, 0, FRAME_WIDTH, FRAME_HEIGHT));
     mario->walkingAnimationRight.addFrame(sf::IntRect(240, 0, FRAME_WIDTH, FRAME_HEIGHT));
 
     mario->walkingAnimationLeft.setSpriteSheet(mSpriteSheet);
+    mario->walkingAnimationLeft.addFrame(standingLeftSprite);
     mario->walkingAnimationLeft.addFrame(sf::IntRect(80, 0, FRAME_WIDTH, FRAME_HEIGHT));
     mario->walkingAnimationLeft.addFrame(sf::IntRect(40, 0, FRAME_WIDTH, FRAME_HEIGHT));
 
     mario->currentAnimation = &mario->walkingAnimationRight;
 
     // set up AnimatedSprite
-    auto animatedSprite = AnimatedSprite(sf::seconds(0.15f), true, false);
+    auto animatedSprite = AnimatedSprite(sf::seconds(0.1f), true, false);
     animatedSprite.scale(SCALE_WIDTH, SCALE_HEIGHT);
     mario->animatedSprite = animatedSprite;
 
