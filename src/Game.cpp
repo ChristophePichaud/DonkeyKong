@@ -7,8 +7,8 @@
 #include "Animation.h"
 #include "AnimatedSprite.h"
 
-#define SCREEN_HEIGHT 1024
-#define SCREEN_WIDTH 770
+#define SCREEN_HEIGHT 1280
+#define SCREEN_WIDTH 960
 #define MARIO_HEIGHT 48
 #define MARIO_WIDTH 32
 
