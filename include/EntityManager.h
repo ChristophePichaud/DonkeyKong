@@ -11,7 +11,6 @@ class EntityManager {
 
     public:
         static std::list<std::shared_ptr<Entity>> m_Entities;
-        static std::shared_ptr<Entity> GetPlayer();
         static std::list<std::shared_ptr<Entity>> GetCoins();
         static void RemoveCoin(std::shared_ptr<Entity> coin);
 };
