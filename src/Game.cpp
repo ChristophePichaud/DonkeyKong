@@ -70,6 +70,7 @@ void Game::drawBlocks() {
     for (int i = 0; i < BLOCK_COUNT_X; i++) {
         for (int j = 0; j < BLOCK_COUNT_Y; j++) {
             _Block[i][j].setTexture(_TextureBlock);
+
             if (j % 2) {
                 _Block[i][j].setPosition(130.f + 70.f * (i + 1),-5.f + BLOCK_SPACE * (j + 1) + (i + 1));
             } else {
