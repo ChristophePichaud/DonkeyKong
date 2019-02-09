@@ -47,15 +47,15 @@ Game::Game() :
 void Game::drawBlocks() {
     _TextureBlock.loadFromFile(BlockTexturePath);
     _sizeBlock = _TextureBlock.getSize();
+
     int up_base = 0;
+
     for (int i = 0; i < BASE_BLOCK_COUNT; i++) {
         _Block[i][BLOCK_COUNT_Y].setTexture(_TextureBlock);
 
-
-        if(i < (BASE_BLOCK_COUNT / 2)){
+        if (i < (BASE_BLOCK_COUNT / 2)) {
             _Block[i][BLOCK_COUNT_Y].setPosition(-70.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (BLOCK_COUNT_Y + 1));
-        }
-        else {
+        } else {
             up_base += 1;
             _Block[i][BLOCK_COUNT_Y].setPosition(-70.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (BLOCK_COUNT_Y + 1) - up_base);
         }
@@ -70,7 +70,7 @@ void Game::drawBlocks() {
     for (int i = 0; i < BLOCK_COUNT_X; i++) {
         for (int j = 0; j < BLOCK_COUNT_Y; j++) {
             _Block[i][j].setTexture(_TextureBlock);
-            if (j%  2) {
+            if (j % 2) {
                 _Block[i][j].setPosition(130.f + 70.f * (i + 1),-5.f + BLOCK_SPACE * (j + 1) + (i + 1));
             } else {
                 _Block[i][j].setPosition(190.f + 70.f * (i + 1), 5.f + BLOCK_SPACE * (j + 1) - (i + 1));
@@ -90,13 +90,12 @@ void Game::drawLadders() {
 
     for (int i = 0; i <= SCALE_COUNT; i++) {
         _Ladder[i].setTexture(_LadderTexture);
-        if(i % 2){
+
+        if (i % 2){
             _Ladder[i].setPosition(830.f + 70.f, 0.f + BLOCK_SPACE * (i + 1) + _sizeBlock.y);
-        }
-        else {
+        } else {
             _Ladder[i].setPosition(230.f + 70.f, 0.f + BLOCK_SPACE * (i + 1) + _sizeBlock.y);
         }
-
 
         std::shared_ptr<Entity> se = std::make_shared<Entity>(false, EntityType::scale);
         se->m_sprite = _Ladder[i];
