@@ -15,7 +15,7 @@ const std::string CoinTexturePath = "../Media/Textures/coin.png";
 const std::string ScoreFontPath = "../Media/BlockyLettersHollow.ttf";
 
 Game::Game() :
-    mWindow(sf::VideoMode(1024, 770), "Donkey Kong 1981", sf::Style::Close),
+    mWindow(sf::VideoMode(1280, 960), "Donkey Kong 1981", sf::Style::Close),
     mTexture(),
     mPlayer(),
     mFont(),
@@ -44,11 +44,18 @@ Game::Game() :
 void Game::drawBlocks() {
     _TextureBlock.loadFromFile(BlockTexturePath);
     _sizeBlock = _TextureBlock.getSize();
-
+    int up_base = 0;
     for (int i = 0; i < BASE_BLOCK_COUNT; i++) {
         _Block[i][BLOCK_COUNT_Y].setTexture(_TextureBlock);
 
-        _Block[i][BLOCK_COUNT_Y].setPosition(-70.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (BLOCK_COUNT_Y + 1));
+
+        if(i < (BASE_BLOCK_COUNT / 2)){
+            _Block[i][BLOCK_COUNT_Y].setPosition(-70.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (BLOCK_COUNT_Y + 1));
+        }
+        else {
+            up_base += 1;
+            _Block[i][BLOCK_COUNT_Y].setPosition(-70.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (BLOCK_COUNT_Y + 1) - up_base);
+        }
 
         std::shared_ptr<Entity> se = std::make_shared<Entity>();
         se->m_sprite = _Block[i][BLOCK_COUNT_Y];
@@ -62,9 +69,9 @@ void Game::drawBlocks() {
         for (int j = 0; j < BLOCK_COUNT_Y; j++) {
             _Block[i][j].setTexture(_TextureBlock);
             if (j%  2) {
-                _Block[i][j].setPosition(30.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (j + 1));
+                _Block[i][j].setPosition(130.f + 70.f * (i + 1),-5.f + BLOCK_SPACE * (j + 1) + (i + 1));
             } else {
-                _Block[i][j].setPosition(90.f + 70.f * (i + 1), 0.f + BLOCK_SPACE * (j + 1));
+                _Block[i][j].setPosition(190.f + 70.f * (i + 1), 5.f + BLOCK_SPACE * (j + 1) - (i + 1));
             }
 
             std::shared_ptr<Entity> se = std::make_shared<Entity>();
@@ -83,10 +90,10 @@ void Game::drawLadders() {
     for (int i = 0; i <= SCALE_COUNT; i++) {
         _Ladder[i].setTexture(_LadderTexture);
         if(i % 2){
-            _Ladder[i].setPosition(750.f + 70.f, 0.f + BLOCK_SPACE * (i + 1) + _sizeBlock.y);
+            _Ladder[i].setPosition(830.f + 70.f, 0.f + BLOCK_SPACE * (i + 1) + _sizeBlock.y);
         }
         else {
-            _Ladder[i].setPosition(120.f + 70.f, 0.f + BLOCK_SPACE * (i + 1) + _sizeBlock.y);
+            _Ladder[i].setPosition(230.f + 70.f, 0.f + BLOCK_SPACE * (i + 1) + _sizeBlock.y);
         }
 
 
@@ -104,8 +111,8 @@ void Game::drawMario() {
     _sizeMario = mTexture.getSize();
     mPlayer.setTexture(mTexture);
     sf::Vector2f posMario;
-    posMario.x = 100.f + 70.f;
-    posMario.y = BLOCK_SPACE * 5 - _sizeMario.y;
+    posMario.x = 90.f;
+    posMario.y = BLOCK_SPACE * (SCALE_COUNT + 1) - _sizeMario.y;
 
     mPlayer.setPosition(posMario);
 
@@ -130,12 +137,12 @@ void Game::drawScore() {
 
     scoreAnnouncementText.setString("Score");
     scoreAnnouncementText.setFont(scoreFont);
-    scoreAnnouncementText.setPosition(844.f, 5.f);
+    scoreAnnouncementText.setPosition(1080.f, 5.f);
     scoreAnnouncementText.setCharacterSize(40);
 
     scoreText.setString(std::to_string(score));
     scoreText.setFont(scoreFont);
-    scoreText.setPosition(844.f, 50.f);
+    scoreText.setPosition(1080.f, 50.f);
     scoreText.setCharacterSize(22);
 }
 
